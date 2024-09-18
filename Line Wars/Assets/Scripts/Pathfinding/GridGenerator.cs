@@ -7,7 +7,8 @@ public class GridGenerator : MonoBehaviour
     public LayerMask unwalkableMask;
     public Vector2 gridWorldSize;
     public float nodeRadius;
-
+    public bool debugUpdateGrid;
+    
     Node[,] _grid;
     float _nodeDiameter;
     int _gridSizeX, _gridSizeY;
@@ -18,6 +19,22 @@ public class GridGenerator : MonoBehaviour
         _gridSizeX = Mathf.RoundToInt(gridWorldSize.x / _nodeDiameter);
         _gridSizeY = Mathf.RoundToInt(gridWorldSize.y / _nodeDiameter);
         CreateGrid();
+    }
+    
+    void Update()
+    {
+        if(nodeRadius < 0.05f)
+        {
+            nodeRadius = 0.05f;
+        }
+        
+        if (debugUpdateGrid)
+        {
+            _nodeDiameter = nodeRadius * 2;
+            _gridSizeX = Mathf.RoundToInt(gridWorldSize.x / _nodeDiameter);
+            _gridSizeY = Mathf.RoundToInt(gridWorldSize.y / _nodeDiameter);
+            CreateGrid();
+        }
     }
 
     void CreateGrid()

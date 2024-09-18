@@ -3,7 +3,7 @@ using UnityEngine;
 
 public interface IPathfinding
 {
-    List<Node> FindPath(Vector3 startPos, Vector3 targetPos);
+    NodePath GetPath(Vector3 startPos, Vector3 targetPos);
     
     bool IsClearPath(Vector2 a, Vector2 b);
 }
@@ -18,7 +18,20 @@ public class Pathfinding : MonoBehaviour, IPathfinding
         _grid = GetComponent<GridGenerator>();
     }
 
-    public List<Node> FindPath(Vector3 startPos, Vector3 targetPos)
+    public NodePath GetPath(Vector3 startPos, Vector3 targetPos)
+    {
+        Node startNode = _grid.NodeFromWorldPoint(startPos);
+        Node targetNode = _grid.NodeFromWorldPoint(targetPos);
+
+        NodePath cachedPath = startNode.GetCachedPath(targetNode);
+        if (cachedPath != null)
+            return cachedPath;
+
+        NodePath path = FindPath(startPos, targetPos);
+        return path;
+    }
+    
+    public NodePath FindPath(Vector3 startPos, Vector3 targetPos)
     {
         Node startNode = _grid.NodeFromWorldPoint(startPos);
         Node targetNode = _grid.NodeFromWorldPoint(targetPos);
@@ -43,7 +56,11 @@ public class Pathfinding : MonoBehaviour, IPathfinding
 
             if (currentNode == targetNode)
             {
-                return RetracePath(startNode, targetNode);
+                var path = RetracePath(startNode, targetNode);
+
+                AddCache(path);
+                
+                return path;
             }
 
             foreach (Node neighbour in _grid.GetNeighbours(currentNode))
@@ -65,7 +82,15 @@ public class Pathfinding : MonoBehaviour, IPathfinding
         }
 
         // Path not found
-        return new List<Node>();
+        return NodePath.Empty;
+    }
+
+    private void AddCache(NodePath path)
+    {
+        for (int i = 0; i < path.Count - 1; i++)
+        {
+            path[i].CachePath(path[path.Count - 1], path.GetRange(i, path.Count - i).ToPath());
+        }
     }
 
     public bool IsClearPath(Vector2 a, Vector2 b)
@@ -87,19 +112,19 @@ public class Pathfinding : MonoBehaviour, IPathfinding
     }
 
 
-    List<Node> RetracePath(Node startNode, Node endNode)
+    NodePath RetracePath(Node startNode, Node endNode)
     {
-        List<Node> path = new List<Node>();
+        List<Node> nodes = new List<Node>();
         Node currentNode = endNode;
 
         while (currentNode != startNode)
         {
-            path.Add(currentNode);
+            nodes.Add(currentNode);
             currentNode = currentNode.parent;
         }
-        path.Reverse();
+        nodes.Reverse();
 
-        return path;
+        return nodes.ToPath();
     }
 
     int GetDistance(Node nodeA, Node nodeB)
