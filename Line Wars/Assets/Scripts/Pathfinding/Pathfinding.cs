@@ -4,7 +4,6 @@ using UnityEngine;
 public interface IPathfinding
 {
     NodePath GetPath(Vector3 startPos, Vector3 targetPos);
-    
     bool IsClearPath(Vector2 a, Vector2 b);
 }
 

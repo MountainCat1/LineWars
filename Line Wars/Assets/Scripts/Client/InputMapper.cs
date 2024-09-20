@@ -5,13 +5,15 @@ using Zenject;
 
 public interface IInputMapper
 {
-    public event Action<AttackContext> OnPlayerCharacterAttack;
+    public event Action<AttackContext> PlayerCharacterAttacked;
+    public event Action<Vector2> Moved;
 }
 
 public class InputMapper : MonoBehaviour, IInputMapper
 {
-    public event Action<AttackContext> OnPlayerCharacterAttack;
-    
+    public event Action<AttackContext> PlayerCharacterAttacked;
+    public event Action<Vector2> Moved;
+
     [Inject] private IInputManager _inputManager;
     private Camera _camera;
 
@@ -19,7 +21,14 @@ public class InputMapper : MonoBehaviour, IInputMapper
     private void Construct()
     {
         _inputManager.Pointer1Hold += OnCharacterAttack;
+        _inputManager.Pointer2Pressed += OnPointer2Pressed;
         _camera = Camera.main;
+    }
+
+    private void OnPointer2Pressed(Vector2 pointerPosition)
+    {
+        var pointerRealPosition = _camera.ScreenToWorldPoint(pointerPosition);
+        Moved?.Invoke(pointerRealPosition);
     }
 
     private void OnCharacterAttack(Vector2 pointerPosition)
@@ -33,7 +42,7 @@ public class InputMapper : MonoBehaviour, IInputMapper
             Direction = direction,
         };
         
-        OnPlayerCharacterAttack?.Invoke(attackContext);
+        PlayerCharacterAttacked?.Invoke(attackContext);
     }
 
     private PlayerCharacter GetPlayerCharacter()

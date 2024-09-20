@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using Unity.Netcode;
+using UnityEngine;
 
 namespace Server
 {
     [RequireComponent(typeof(Creature))]
-    public class CreatureController : MonoBehaviour
+    public class CreatureController : NetworkBehaviour
     {
         public Creature Creature { private set; get; }
         

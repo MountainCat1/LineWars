@@ -2,7 +2,7 @@
 
 public class NodePath : List<Node>
 {
-    public static NodePath Empty => new NodePath();
+    public static NodePath Empty => new();
 }
 
 public static class PathExtensions
