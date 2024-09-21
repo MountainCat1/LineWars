@@ -5,7 +5,8 @@ using UnityEngine;
 public class Creature : NetworkBehaviour
 {
     [field: SerializeField] public float Speed { get; set; }
-    [SerializeField] private float speed = 5f;
+    [field: SerializeField] private float speed = 5f;
+    
     private List<Vector2> _path = new();
 
     public void SetPath(Vector2[] path)

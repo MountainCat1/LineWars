@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Server;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,10 +11,6 @@ namespace Client
         [Inject] IInputMapper _inputMapper;
         [Inject] IPathfinding _pathfinding;
 
-        private List<Vector2> _path = new();
-
-        [SerializeField] private float speed = 5f;
-
         private void Start()
         {
             FindObjectOfType<SceneContext>().Container.Inject(this);
@@ -26,7 +21,6 @@ namespace Client
                 return;
             }
 
-
             _inputMapper.Moved += OnMoved;
         }
 
@@ -35,14 +29,10 @@ namespace Client
             SetTargetServerRpc(targetPosition);
         }
 
+        #region Server Logic
+
         [ServerRpc]
         private void SetTargetServerRpc(Vector2 targetPosition)
-        {
-            SetTargetPosition(targetPosition);
-        }
-
-        // [ServerRpc]
-        private void SetTargetPosition(Vector2 targetPosition)
         {
             if (_pathfinding.IsClearPath(Creature.transform.position, targetPosition))
             {
@@ -56,5 +46,9 @@ namespace Client
                 Creature.SetPath(path.Select(x => (Vector2)x.worldPosition).ToArray());
             }
         }
+        
+        #endregion
+        
+
     }
 }

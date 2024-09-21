@@ -1,6 +1,6 @@
 ﻿using System;
 using Unity.Netcode;
-
+using UnityEngine;
 
 
 public class Player : NetworkBehaviour
@@ -13,5 +13,10 @@ public class Player : NetworkBehaviour
             return;
         
         OnPlayerSpawned?.Invoke(this);
+    }
+
+    private void Update()
+    {
+        Debug.Log(name + OwnerClientId);
     }
 }
