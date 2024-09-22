@@ -14,17 +14,20 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
         if (!IsServer)
             return;
         
-        Player.OnPlayerSpawned += OnPlayerSpawned;
+        Player.PlayerStarted += OnPlayerSpawnedServer;
     }
 
     public override void OnDestroy()
     {
         base.OnDestroy();
         
-        Player.OnPlayerSpawned -= OnPlayerSpawned;
+        if (!IsServer)
+            return;
+        
+        Player.PlayerStarted -= OnPlayerSpawnedServer;
     }
 
-    private void OnPlayerSpawned(Player player)
+    private void OnPlayerSpawnedServer(Player player)
     {
         SpawnCreature(heroPrefab, player);
     }

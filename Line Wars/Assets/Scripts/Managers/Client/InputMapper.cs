@@ -1,18 +1,21 @@
 ﻿using System;
 using Client;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Zenject;
 
 public interface IInputMapper
 {
     public event Action<AttackContext> PlayerCharacterAttacked;
     public event Action<Vector2> Moved;
+    public Vector2 PointerWorldPosition { get; }
 }
 
 public class InputMapper : MonoBehaviour, IInputMapper
 {
     public event Action<AttackContext> PlayerCharacterAttacked;
     public event Action<Vector2> Moved;
+    public Vector2 PointerWorldPosition => _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
     [Inject] private IInputManager _inputManager;
     private Camera _camera;
@@ -20,7 +23,7 @@ public class InputMapper : MonoBehaviour, IInputMapper
     [Inject]
     private void Construct()
     {
-        _inputManager.Pointer1Hold += OnCharacterAttack;
+        // _inputManager.Pointer1Hold += OnCharacterAttack;
         _inputManager.Pointer2Pressed += OnPointer2Pressed;
         _camera = Camera.main;
     }

@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Server.Abstractions;
 using Unity.Netcode;
 using UnityEngine;
 
-public class Creature : NetworkBehaviour
+public class Creature : Entity
 {
     [field: SerializeField] public float Speed { get; set; }
     [field: SerializeField] private float speed = 5f;
