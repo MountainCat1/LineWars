@@ -6,6 +6,7 @@ using Server;
 using Server.Consts;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 public class Player : NetworkBehaviour
@@ -16,14 +17,14 @@ public class Player : NetworkBehaviour
     public IBuildingController BuildingController => buildingController;
     
     [field: SerializeField] private GamePlayer gamePlayer;
-    [field: SerializeField] public BuildingController buildingController;
-    [field: SerializeField] public Building TestBuilding { get; private set; }
+    [field: SerializeField] private BuildingController buildingController;
+    [field: SerializeField] public Building TestBuilding { get; private set; } // TODO: Remove this
 
     [Inject] private IInputManager _inputManager;
     [Inject] private IInputMapper _inputMapper;
     [Inject] private IPlayerManager _playerManager;
 
-    [SerializeField] private NetworkVariable<Color> _color = new(Color.white);
+    [SerializeField] private NetworkVariable<Color> color = new(Color.white);
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class Player : NetworkBehaviour
 
         if (IsServer)
         {
-            _color.Value = PlayerColors.Colors[(int)OwnerClientId % PlayerColors.Colors.Length];
+            color.Value = PlayerColors.Colors[(int)OwnerClientId % PlayerColors.Colors.Length];
         }
 
         if (IsOwner)
