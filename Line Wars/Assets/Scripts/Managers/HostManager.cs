@@ -9,11 +9,13 @@ using Zenject;
 public interface IHostManager
 {
     event Action HostStarted;
+    event Action HostStopped;
 }
 
 public class HostManager : MonoBehaviour, IHostManager
 {
     public event Action HostStarted;
+    public event Action HostStopped;
 
     [Inject] private NetworkManager _networkManager;
 
@@ -38,5 +40,13 @@ public class HostManager : MonoBehaviour, IHostManager
         {
             _networkManager.StartClient();
         }
+        
+        _networkManager.OnServerStopped += OnServerStopped;
+    }
+
+    
+    private void OnServerStopped(bool isAClientAndAServer)
+    {
+        HostStopped?.Invoke();
     }
 }

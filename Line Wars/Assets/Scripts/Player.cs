@@ -1,6 +1,7 @@
 ﻿using System;
 using Client;
 using Extensions;
+using Managers;
 using Server;
 using Server.Consts;
 using Unity.Netcode;
@@ -9,15 +10,18 @@ using Zenject;
 
 public class Player : NetworkBehaviour
 {
-    public static event Action<Player> PlayerStarted;
-    public static event Action<Player> PlayerSpawned;
-    public static event Action<Player> PlayerDespawned;
+    public event Action<Player> PlayerStarted;
 
-    [field: SerializeField] public BuildingController BuildingController { get; private set; }
+    public IGamePlayer GamePlayer => gamePlayer;
+    public IBuildingController BuildingController => buildingController;
+    
+    [field: SerializeField] private GamePlayer gamePlayer;
+    [field: SerializeField] public BuildingController buildingController;
     [field: SerializeField] public Building TestBuilding { get; private set; }
 
     [Inject] private IInputManager _inputManager;
     [Inject] private IInputMapper _inputMapper;
+    [Inject] private IPlayerManager _playerManager;
 
     [SerializeField] private NetworkVariable<Color> _color = new(Color.white);
 
@@ -25,6 +29,7 @@ public class Player : NetworkBehaviour
     {
         this.Inject();
 
+        _playerManager.RegisterPlayer(this);
 
         if (IsServer)
         {
@@ -35,7 +40,7 @@ public class Player : NetworkBehaviour
         {
             _inputManager.Pointer1Pressed += OnPointer1Pressed;
         }
-
+        
         PlayerStarted?.Invoke(this);
     }
 
@@ -44,8 +49,6 @@ public class Player : NetworkBehaviour
         base.OnNetworkSpawn();
 
         Debug.Log($"Player spawned | {OwnerClientId} | {IsServer} | {IsClient} | {IsOwner}");
-
-        PlayerSpawned?.Invoke(this);
     }
 
     public override void OnNetworkDespawn()
@@ -53,8 +56,6 @@ public class Player : NetworkBehaviour
         base.OnNetworkDespawn();
 
         Debug.Log($"Player despawned | {OwnerClientId} | {IsServer} | {IsClient} | {IsOwner}");
-
-        PlayerDespawned?.Invoke(this);
     }
 
     private void OnPointer1Pressed(Vector2 obj)

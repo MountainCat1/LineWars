@@ -1,5 +1,7 @@
-﻿using Unity.Netcode;
+﻿using Managers;
+using Unity.Netcode;
 using UnityEngine;
+using Zenject;
 
 public interface ICreatureSpawner
 {
@@ -8,13 +10,14 @@ public interface ICreatureSpawner
 public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
 {
     [SerializeField] private NetworkObject heroPrefab;
+    [Inject] private IPlayerManager _playerManager;
     
     private void Start()
     {
         if (!IsServer)
             return;
         
-        Player.PlayerStarted += OnPlayerSpawnedServer;
+        _playerManager.PlayerStarted += OnPlayerSpawnedServer;
     }
 
     public override void OnDestroy()
@@ -24,7 +27,7 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
         if (!IsServer)
             return;
         
-        Player.PlayerStarted -= OnPlayerSpawnedServer;
+        _playerManager.PlayerStarted -= OnPlayerSpawnedServer;
     }
 
     private void OnPlayerSpawnedServer(Player player)

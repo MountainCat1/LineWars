@@ -1,5 +1,4 @@
-﻿using System;
-using Extensions;
+﻿using Extensions;
 using Managers;
 using Server;
 using Server.Exceptions;
@@ -9,7 +8,13 @@ using Zenject;
 
 namespace Client
 {
-    public class BuildingController : NetworkBehaviour
+    public interface IBuildingController
+    {
+        void Build(Building building, Vector2 position);
+        void BuildServerRpc(string buildingName, Vector2 position);
+    }
+
+    public class BuildingController : NetworkBehaviour, IBuildingController
     {
         [Inject] private IBuildingManager _buildingManager;
 
