@@ -114,8 +114,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gamePlayer: {fileID: -4564383859704362471}
   buildingController: {fileID: 1425432854905735039}
-  <TestBuilding>k__BackingField: {fileID: 3088459180804402448, guid: 2b07528a5efaa09478b987e6bbe03877, type: 3}
-  _color:
+  <TestBuilding>k__BackingField: {fileID: 8189671257262537319, guid: 2b07528a5efaa09478b987e6bbe03877, type: 3}
+  color:
     m_InternalValue: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &-4564383859704362471
 MonoBehaviour:

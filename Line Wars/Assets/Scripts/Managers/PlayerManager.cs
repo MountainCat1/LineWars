@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 
@@ -14,6 +12,7 @@ namespace Managers
         event Action<Player> PlayerStarted;
         event Action<Player> PlayerSpawnded;
         void RegisterPlayer(Player player);
+        Player GetPlayer(ulong playerId);
     }
 
     public class PlayerManager : MonoBehaviour, IPlayerManager
@@ -35,11 +34,6 @@ namespace Managers
             _hostManager.HostStopped += OnHostStopped;
         }
 
-        private void Update()
-        {
-            Debug.Log(_players.Count);
-        }
-
         // Methods
 
         private Player GetLocalPlayer()
@@ -50,6 +44,11 @@ namespace Managers
         public void RegisterPlayer(Player player)
         {
             OnPlayerSpawned(player);
+        }
+
+        public Player GetPlayer(ulong playerId)
+        {
+            return _players.Find(player => player.OwnerClientId == playerId);
         }
 
 

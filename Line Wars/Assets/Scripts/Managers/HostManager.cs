@@ -42,9 +42,15 @@ public class HostManager : MonoBehaviour, IHostManager
         }
         
         _networkManager.OnServerStopped += OnServerStopped;
+        _networkManager.OnServerStarted += OnServerStarted;
     }
 
-    
+    private void OnServerStarted()
+    {
+        HostStarted?.Invoke();
+    }
+
+
     private void OnServerStopped(bool isAClientAndAServer)
     {
         HostStopped?.Invoke();

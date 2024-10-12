@@ -1,12 +1,11 @@
 ﻿using System;
+using Abstractions;
 using Client;
 using Extensions;
 using Managers;
-using Server;
 using Server.Consts;
 using Unity.Netcode;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 public class Player : NetworkBehaviour

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Server;
-using Unity.Mathematics;
+﻿using System.Collections.Generic;
+using Abstractions;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -46,7 +44,7 @@ namespace Managers
             var instance = Instantiate(building.gameObject, roundedPosition, Quaternion.identity);
             
             var buildingScript = instance.GetComponent<Building>();
-            buildingScript.PlayerOwner.Value = ownerClientId;
+            buildingScript.PlayerOwnerId.Value = ownerClientId;
             
             var networkObject = instance.GetComponent<NetworkObject>();
             networkObject.Spawn();

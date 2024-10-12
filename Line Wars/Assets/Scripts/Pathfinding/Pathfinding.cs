@@ -102,6 +102,7 @@ public class Pathfinding : MonoBehaviour, IPathfinding
         RaycastHit2D hit = Physics2D.Raycast(a, direction, distance, _grid.unwalkableMask);
         if (hit.collider != null)
         {
+            Debug.Log(hit.transform.name);
             // If a collider is hit on the specified layer, return false
             return false;
         }

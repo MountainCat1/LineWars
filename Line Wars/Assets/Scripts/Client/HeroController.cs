@@ -1,5 +1,6 @@
 ﻿using System.Linq;
-using Server;
+using Abstractions;
+using Extensions;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -13,7 +14,7 @@ namespace Client
 
         private void Start()
         {
-            FindObjectOfType<SceneContext>().Container.Inject(this);
+            this.Inject();
             
             if (!IsOwner)
             {

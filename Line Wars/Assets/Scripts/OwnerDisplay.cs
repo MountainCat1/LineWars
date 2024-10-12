@@ -12,15 +12,9 @@ namespace Server
         [SerializeField] private Entity entity;
         [SerializeField] private SpriteRenderer spriteRenderer;
 
-        [Inject] private IPlayerManager _playerManager;
-        private void Awake()
-        {
-            this.Inject();
-        }
-
         private void Start()
         {
-            var owner = entity.PlayerOwner.Value;
+            var owner = entity.PlayerOwnerId.Value;
             var color = PlayerColors.Colors[(int)owner % PlayerColors.Colors.Length];
             spriteRenderer.color = color;
         }

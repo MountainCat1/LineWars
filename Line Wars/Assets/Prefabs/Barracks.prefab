@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 319782851463607210}
   - component: {fileID: 8202753912498731552}
-  - component: {fileID: 3088459180804402448}
+  - component: {fileID: 8189671257262537319}
   - component: {fileID: 3926484719026941529}
   m_Layer: 0
   m_Name: Barracks
@@ -34,6 +34,7 @@ Transform:
   m_Children:
   - {fileID: 1705649819053207731}
   - {fileID: 5584549795205590228}
+  - {fileID: 7418783391813145368}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8202753912498731552
@@ -57,7 +58,7 @@ MonoBehaviour:
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
---- !u!114 &3088459180804402448
+--- !u!114 &8189671257262537319
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,9 +67,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 367821828081881721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33a76c53259c44bfa937dae4d01c9fe7, type: 3}
+  m_Script: {fileID: 11500000, guid: f93e555c83014f0eaa4838bccd228a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <CreaturePrefab>k__BackingField: {fileID: 7718660708734392559, guid: 0234b1ac339487b4b87416ed1932bb45, type: 3}
+  <SpawnDelay>k__BackingField: 5
+  spawnPoint: {fileID: 7418783391813145368}
 --- !u!61 &3926484719026941529
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -159,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b68128156f4a3ea9d3c4ca8ea6b009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  entity: {fileID: 3088459180804402448}
+  entity: {fileID: 8189671257262537319}
   spriteRenderer: {fileID: 5031045398770906666}
 --- !u!212 &5031045398770906666
 SpriteRenderer:
@@ -297,3 +301,34 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8778641827653159856
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7418783391813145368}
+  m_Layer: 0
+  m_Name: Spawnpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7418783391813145368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8778641827653159856}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 319782851463607210}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

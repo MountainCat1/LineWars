@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 using Server.Abstractions;
-using Unity.Netcode;
 using UnityEngine;
 
 public class Creature : Entity
 {
     [field: SerializeField] public float Speed { get; set; }
-    [field: SerializeField] private float speed = 5f;
     
     private List<Vector2> _path = new();
 
@@ -35,7 +33,7 @@ public class Creature : Entity
 
             var targetPosition = _path[0];
             var direction = (targetPosition - (Vector2)transform.position).normalized;
-            transform.position += (Vector3)(direction * speed * Time.deltaTime);
+            transform.position += (Vector3)(direction * (Speed * Time.deltaTime));
             if (Vector2.Distance(transform.position, targetPosition) < 0.1f)
             {
                 _path.RemoveAt(0);

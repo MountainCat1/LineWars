@@ -6,6 +6,7 @@ public class GameInstaller : MonoInstaller<GameInstaller>
 {
     public override void InstallBindings()
     {
+        Container.Bind<ITickManager>().To<TickManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<GridGenerator>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IPathfinding>().To<Pathfinding>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IInputManager>().To<InputManager>().FromComponentsInHierarchy().AsSingle();
