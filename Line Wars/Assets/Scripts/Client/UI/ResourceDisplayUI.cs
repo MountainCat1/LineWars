@@ -14,6 +14,8 @@ namespace Client.UI
         
         private void Update()
         {
+            if(_playerManager.LocalPlayer == null) return; // TODO: Use events to update the UI
+            
             // TODO: Use events to update the UI
             goldText.text = _playerManager.LocalPlayer.GamePlayer.Gold.ToString(CultureInfo.InvariantCulture);
             
