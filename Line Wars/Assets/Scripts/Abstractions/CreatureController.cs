@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using Extensions;
+﻿using Extensions;
 using Managers;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +10,7 @@ namespace Abstractions
     public class CreatureController : NetworkBehaviour
     {
         [Inject] private ITickManager _tickManager;
+        
         
         public Creature Creature { private set; get; }
 
