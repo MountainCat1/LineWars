@@ -17,9 +17,7 @@ public class Player : NetworkBehaviour
     
     [field: SerializeField] private BuildingController buildingController;
     [field: SerializeField] public Building TestBuilding { get; private set; } // TODO: Remove this
-
-    [Inject] private IInputManager _inputManager;
-    [Inject] private IInputMapper _inputMapper;
+    
     [Inject] private IPlayerManager _playerManager;
 
     [SerializeField] private NetworkVariable<Color> color = new(Color.white);
@@ -34,11 +32,7 @@ public class Player : NetworkBehaviour
         {
             color.Value = PlayerColors.Colors[(int)OwnerClientId % PlayerColors.Colors.Length];
         }
-
-        if (IsOwner)
-        {
-            _inputManager.Pointer1Pressed += OnPointer1Pressed;
-        }
+        
         
         PlayerStarted?.Invoke(this);
     }
@@ -55,10 +49,5 @@ public class Player : NetworkBehaviour
         base.OnNetworkDespawn();
 
         Debug.Log($"Player despawned | {OwnerClientId} | {IsServer} | {IsClient} | {IsOwner}");
-    }
-
-    private void OnPointer1Pressed(Vector2 obj)
-    {
-        BuildingController.Build(TestBuilding, _inputMapper.PointerWorldPosition);
     }
 }

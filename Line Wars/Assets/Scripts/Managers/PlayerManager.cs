@@ -31,7 +31,7 @@ namespace Managers
 
         private void Awake()
         {
-            _hostManager.HostStopped += OnHostStopped;
+            _hostManager.OnServerStopped += OnHostStopped;
         }
 
         // Methods

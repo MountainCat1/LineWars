@@ -33,6 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7525162539719557257}
+  - {fileID: 1279358468393711259}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4281528166895401225
@@ -90,6 +91,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   networkManagerPrefab: {fileID: 9021722835123442486, guid: 902f78d8cd3309a4cac449375861f2a5, type: 3}
+--- !u!1 &1290915901885912808
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1279358468393711259}
+  - component: {fileID: 8335403626823553641}
+  m_Layer: 0
+  m_Name: Player Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1279358468393711259
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290915901885912808}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4552757044614495395}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8335403626823553641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1290915901885912808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e84a26bd3546a79c25b51cb530bab4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3346935238592366572
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,3 +179,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955a86264d8a41ed8aa6576b58f7b4b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameScene:
+    sceneAsset: {fileID: 102900000, guid: 51224ebafd660044ebac00b0ac55efec, type: 3}
+    scenePath: Assets/Scenes/Game Scene.unity
+  menuScene:
+    sceneAsset: {fileID: 102900000, guid: 5a6416349bf9dee458cf957417086fc3, type: 3}
+    scenePath: Assets/Scenes/Lobby Scene.unity
+  networkSystemsPrefab: {fileID: 5684414106642429223, guid: d6372fbf588e45543a1614881b8ed5c9, type: 3}
