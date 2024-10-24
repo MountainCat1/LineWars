@@ -12,10 +12,9 @@ public class Player : NetworkBehaviour
 {
     public event Action<Player> PlayerStarted;
 
-    public IGamePlayer GamePlayer => gamePlayer;
+    public IGamePlayer GamePlayer { get; set; }
     public IBuildingController BuildingController => buildingController;
     
-    [field: SerializeField] private GamePlayer gamePlayer;
     [field: SerializeField] private BuildingController buildingController;
     [field: SerializeField] public Building TestBuilding { get; private set; } // TODO: Remove this
 

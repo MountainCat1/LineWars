@@ -15,13 +15,23 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
 {
     [SerializeField] private NetworkObject heroPrefab;
     [Inject] private IPlayerManager _playerManager;
-
+    [Inject] private IStageManager _stageManager;
+    [Inject] private IGamePlayerManager _gamePlayerManager;
+    
     private void Start()
     {
         if (!IsServer)
             return;
 
-        _playerManager.PlayerStarted += OnPlayerSpawnedServer;
+        _stageManager.GameStarted += OnGameStarted;
+    }
+
+    private void OnGameStarted()
+    {
+        foreach (var gamePlayer in _gamePlayerManager.GamePlayers)
+        {
+            SpawnCreature(heroPrefab.GetComponent<Creature>(), Vector2.zero, gamePlayer);
+        }
     }
 
     public override void OnDestroy()
@@ -31,25 +41,21 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
         if (!IsServer)
             return;
 
-        _playerManager.PlayerStarted -= OnPlayerSpawnedServer;
+        // server stuff
     }
-
-    private void OnPlayerSpawnedServer(Player player)
-    {
-        SpawnCreature(heroPrefab.GetComponent<Creature>(), Vector2.zero, player.GamePlayer);
-    }
+    
 
     public void SpawnCreature(Creature creature, Vector2 position, IGamePlayer owner = null)
     {
         var networkObject = creature.GetComponent<NetworkObject>();
         
-        var newObject = NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject, owner!.Id,
+        var newObject = NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject, owner!.ClientId,
             position: position,
             rotation: Quaternion.identity);
         
         foreach (var component in newObject.GetComponents<Entity>())
         {
-            component.PlayerOwnerId.Value = owner.Id;
+            component.PlayerOwnerId.Value = owner.ClientId;
         }
     }
     
