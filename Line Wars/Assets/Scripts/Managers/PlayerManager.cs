@@ -51,7 +51,6 @@ namespace Managers
             return _players.Find(player => player.OwnerClientId == playerId);
         }
 
-
         // Handlers
         private void OnHostStopped()
         {

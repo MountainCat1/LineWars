@@ -13,7 +13,6 @@ public class GameInstaller : MonoInstaller<GameInstaller>
         Container.Bind<IInputManager>().To<InputManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IInputMapper>().To<InputMapper>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IBuildingManager>().To<BuildingManager>().FromComponentsInHierarchy().AsSingle();
-        Container.Bind<IPlayerManager>().To<PlayerManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<IGamePlayerManager>().To<GamePlayerManager>().FromComponentsInHierarchy().AsSingle();
         Container.Bind<ICreatureSpawner>().To<CreatureSpawner>().FromComponentsInHierarchy().AsSingle();
     }

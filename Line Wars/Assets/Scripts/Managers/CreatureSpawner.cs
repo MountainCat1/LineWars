@@ -14,7 +14,6 @@ public interface ICreatureSpawner
 public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
 {
     [SerializeField] private NetworkObject heroPrefab;
-    [Inject] private IPlayerManager _playerManager;
     [Inject] private IStageManager _stageManager;
     [Inject] private IGamePlayerManager _gamePlayerManager;
     
@@ -45,13 +44,14 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
     }
     
 
-    public void SpawnCreature(Creature creature, Vector2 position, IGamePlayer owner = null)
+    public void SpawnCreature(Creature creature, Vector2 position, IGamePlayer owner)
     {
         var networkObject = creature.GetComponent<NetworkObject>();
         
-        var newObject = NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject, owner!.ClientId,
+        var newObject = Instantiate(networkObject,
             position: position,
             rotation: Quaternion.identity);
+        newObject.Spawn();
         
         foreach (var component in newObject.GetComponents<Entity>())
         {

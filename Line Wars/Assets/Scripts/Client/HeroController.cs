@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Abstractions;
 using Extensions;
+using Managers;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -11,12 +12,17 @@ namespace Client
     {
         [Inject] IInputMapper _inputMapper;
         [Inject] IPathfinding _pathfinding;
+        [Inject] IPlayerManager _playerManager;
 
-        private void Start()
+        protected override void Awake()
+        {
+        }
+
+        protected override void Start()
         {
             this.Inject();
             
-            if (!IsOwner)
+            if (!Creature.ControlledByLocalPlayer)
             {
                 enabled = false;
                 return;

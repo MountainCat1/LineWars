@@ -16,6 +16,13 @@ namespace Server.Abstractions
         public IGamePlayer PlayerOwner => PlayerOwnerId.Value != long.MaxValue 
             ? _playerManager.GetPlayer(PlayerOwnerId.Value).GamePlayer
             : throw new NullReferenceException("PlayerOwnerId is null");
+        
+        public bool ControlledByLocalPlayer => PlayerOwner == _playerManager.LocalPlayer.GamePlayer;
+
+        private void Awake()
+        {
+            this.Inject();
+        }
 
         public override void OnNetworkSpawn()
         {

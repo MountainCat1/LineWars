@@ -11,7 +11,6 @@ namespace Abstractions
     {
         [Inject] private ITickManager _tickManager;
         
-        
         public Creature Creature { private set; get; }
 
         protected virtual void Awake()
