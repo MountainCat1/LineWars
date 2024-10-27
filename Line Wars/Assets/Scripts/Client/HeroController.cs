@@ -14,10 +14,6 @@ namespace Client
         [Inject] IPathfinding _pathfinding;
         [Inject] IPlayerManager _playerManager;
 
-        protected override void Awake()
-        {
-        }
-
         protected override void Start()
         {
             this.Inject();

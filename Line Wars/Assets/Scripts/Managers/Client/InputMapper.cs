@@ -20,7 +20,7 @@ public class InputMapper : MonoBehaviour, IInputMapper
     public Vector2 PointerWorldPosition => _camera.ScreenToWorldPoint(Mouse.current.position.ReadValue());
 
     [Inject] private IInputManager _inputManager;
-    
+
     private Camera _camera;
 
     [Inject]
@@ -28,10 +28,13 @@ public class InputMapper : MonoBehaviour, IInputMapper
     {
         // _inputManager.Pointer1Hold += OnCharacterAttack;
         _inputManager.Pointer2Pressed += OnPointer2Pressed;
-        _camera = Camera.main;
-        
+
         _inputManager.GeneralMovement += OnCameraMoved;
-        
+    }
+
+    private void Start()
+    {
+        _camera = Camera.main;
     }
 
     private void OnCameraMoved(Vector2 obj)
@@ -55,7 +58,7 @@ public class InputMapper : MonoBehaviour, IInputMapper
             Attacker = playerCharacter,
             Direction = direction,
         };
-        
+
         PlayerCharacterAttacked?.Invoke(attackContext);
     }
 
@@ -63,5 +66,4 @@ public class InputMapper : MonoBehaviour, IInputMapper
     {
         return FindObjectOfType<PlayerCharacter>();
     }
-
 }

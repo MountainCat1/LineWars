@@ -7,7 +7,7 @@ using Zenject;
 
 public interface ICreatureSpawner
 {
-    void SpawnCreature(Creature networkObject, Vector2 position, IGamePlayer owner = null);
+    Creature SpawnCreature(Creature networkObject, Vector2 position, IGamePlayer owner = null, bool grantNetworkOwnership = false);
     // public void SpawnCreature(Creature networkObject, Vector2 position, ulong ownerId);
 }
 
@@ -27,10 +27,6 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
 
     private void OnGameStarted()
     {
-        foreach (var gamePlayer in _gamePlayerManager.GamePlayers)
-        {
-            SpawnCreature(heroPrefab.GetComponent<Creature>(), Vector2.zero, gamePlayer);
-        }
     }
 
     public override void OnDestroy()
@@ -44,27 +40,29 @@ public class CreatureSpawner : NetworkBehaviour, ICreatureSpawner
     }
     
 
-    public void SpawnCreature(Creature creature, Vector2 position, IGamePlayer owner)
+    public Creature SpawnCreature(Creature creature, Vector2 position, IGamePlayer owner, bool grantNetworkOwnership = false)
     {
         var networkObject = creature.GetComponent<NetworkObject>();
         
         var newObject = Instantiate(networkObject,
             position: position,
             rotation: Quaternion.identity);
-        newObject.Spawn();
+        
+        if (grantNetworkOwnership)
+        {
+            newObject.SpawnWithOwnership(owner.ClientId);
+        }
+        else
+        {
+            newObject.Spawn();
+        }
+        
         
         foreach (var component in newObject.GetComponents<Entity>())
         {
             component.PlayerOwnerId.Value = owner.ClientId;
         }
-    }
-    
-    public void SpawnCreature(Creature creature, Vector2 position, ulong ownerId)
-    {
-        var networkObject = creature.GetComponent<NetworkObject>();
         
-        NetworkManager.SpawnManager.InstantiateAndSpawn(networkObject, ownerId,
-            position: position,
-            rotation: Quaternion.identity);
+        return newObject.GetComponent<Creature>();
     }
 }

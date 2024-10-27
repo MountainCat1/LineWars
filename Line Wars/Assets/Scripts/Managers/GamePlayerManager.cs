@@ -28,10 +28,18 @@ namespace Managers
                 return;
 
             _gamePlayers = Object.FindObjectsOfType<GamePlayer>();
-            _playerManager.PlayerStarted += OnPlayerStarted;
+
+            // Assign players to game players
+            foreach (var player in _playerManager.Players)
+            {
+                AssignGamePlayer(player);
+            }
+            
+            // Subscribe to player started event to asssign late joiners
+            _playerManager.PlayerStarted += AssignGamePlayer;
         }
 
-        private void OnPlayerStarted(Player player)
+        private void AssignGamePlayer(Player player)
         {
             if (_assignedIndex >= _gamePlayers.Count)
             {
@@ -41,6 +49,8 @@ namespace Managers
 
             var gamePlayer = _gamePlayers[_assignedIndex++];
             player.GamePlayer = gamePlayer;
+            
+            gamePlayer.NetworkObject.ChangeOwnership(player.OwnerClientId);
         }
     }
 }
