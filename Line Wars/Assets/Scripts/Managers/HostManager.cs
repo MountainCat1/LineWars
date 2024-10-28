@@ -35,6 +35,7 @@ public interface IHostManager
     void RestartGame();
 
     bool IsHosting { get; }
+    bool IsServer { get; }
     bool AcceptConnections { get; }
     string DefaultAddress { get; }
 }
@@ -60,7 +61,8 @@ public class HostManager : MonoBehaviour, IHostManager
     [SerializeField] public SceneReference menuScene;
     [SerializeField] public NetworkObject networkSystemsPrefab;
 
-    public bool IsHosting => _networkManager.IsServer;
+    public bool IsHosting => _networkManager.IsHost;
+    public bool IsServer => _networkManager.IsServer;
     public bool Started { get; private set; } = false;
     public bool AcceptConnections => !Started;
 

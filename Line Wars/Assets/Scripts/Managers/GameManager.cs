@@ -9,11 +9,18 @@ public class GameManager : MonoBehaviour
     [Inject] private IStageManager _setupManager;
     [Inject] private IGamePlayerManager _gamePlayerManager;
     [Inject] private ICreatureSpawner _creatureSpawner;
-
+    [Inject] private IHostManager _hostManager;
+    
     [SerializeField] private GameObject heroPrefab;
 
     private void Start()
     {
+        if (!_hostManager.IsServer)
+        {
+            enabled = false;
+            return;
+        }
+        
         StartCoroutine(SetupCoroutine());
     }
     
