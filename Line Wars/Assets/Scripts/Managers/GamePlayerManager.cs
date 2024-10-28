@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using ModestTree;
 using Unity.Netcode;
 using UnityEngine;
 using Zenject;
@@ -11,7 +12,7 @@ namespace Managers
         ICollection<GamePlayer> GamePlayers { get; }
     }
 
-    public class GamePlayerManager : MonoBehaviour, IGamePlayerManager
+    public class GamePlayerManager : NetworkBehaviour, IGamePlayerManager
     {
         [Inject] private IPlayerManager _playerManager;
         [Inject] private NetworkManager _networkManager;
@@ -26,9 +27,9 @@ namespace Managers
         {
             if (!_networkManager.IsServer)
                 return;
-
+         
             _gamePlayers = Object.FindObjectsOfType<GamePlayer>();
-
+            
             // Assign players to game players
             foreach (var player in _playerManager.Players)
             {
@@ -51,6 +52,20 @@ namespace Managers
             player.GamePlayer = gamePlayer;
             
             gamePlayer.NetworkObject.ChangeOwnership(player.OwnerClientId);
+            
+            AssignGamePlayerClientRpc(player.OwnerClientId, _assignedIndex - 1);
+        }
+        
+        [ClientRpc]
+        public void AssignGamePlayerClientRpc(ulong playerId, int gamePlayerIndex)
+        {
+            // TODO: THIS IS NOT HOW ITS SUPPOSE DO BE?!
+            if(_gamePlayers.IsEmpty())
+                _gamePlayers = Object.FindObjectsOfType<GamePlayer>();
+            
+            var player = _playerManager.GetPlayer(playerId);
+            var gamePlayer = _gamePlayers[gamePlayerIndex];
+            player.GamePlayer = gamePlayer;
         }
     }
 }
